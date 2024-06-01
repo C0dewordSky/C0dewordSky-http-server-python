@@ -50,17 +50,14 @@ def main():
 # Ensure the server runs when the script is executed
 
 def get_header(request_str):
-    headers = {}
     lines = request_str.split("\r\n")
     for line in lines:
-        if ": " in line:
-            header, value = line.split(": ", 1)
-            headers[header] = value
-    return headers
+        if line.startswith("User-Agent:"):
+            return line.split(":", 1)[1].strip()
+    return None
 
     
     
-    
-    
+
 if __name__ == "__main__":
     main()
