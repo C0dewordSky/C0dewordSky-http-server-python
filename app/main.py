@@ -26,7 +26,7 @@ def main():
                 f"Content-Type: text/plain\r\n"  # Content-Type should be fixed to text/plain
                 f"Content-Length: {len(response_body)}\r\n\r\n"
                 f"{response_body}"
-            ).encode("utf-8")
+            ).encode()
             conn.sendall(response)
         elif path == "/":
             response = b"HTTP/1.1 200 OK\r\n\r\n"
@@ -39,7 +39,7 @@ def main():
                     f"Content-Type: text/plain\r\n"
                     f"Content-Length: {len(user_agent)}\r\n\r\n"
                     f"{user_agent}"
-                ).encode("utf-8")
+                ).encode()
         else:
             conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
         
