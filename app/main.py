@@ -62,7 +62,7 @@ def get_header(request_str):
 
 def get_file(req_str):
     lines = req_str.split("/")
-    return lines[1]
+    return lines[2]
 
 if __name__ == "__main__":
     main()
