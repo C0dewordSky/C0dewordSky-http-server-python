@@ -1,14 +1,7 @@
 import socket
 
 
-def get_header(request_str):
-    headers = {}
-    lines = request_str.split("\r\n")
-    for line in lines:
-        if ": " in line:
-            header, value = line.split(": ", 1)
-            headers[header] = value
-    return headers
+
 
 def main():
     # You can use print statements as follows for debugging, they'll be visible when running tests.
@@ -56,6 +49,14 @@ def main():
 
 # Ensure the server runs when the script is executed
 
+def get_header(request_str):
+    headers = {}
+    lines = request_str.split("\r\n")
+    for line in lines:
+        if ": " in line:
+            header, value = line.split(": ", 1)
+            headers[header] = value
+    return headers
 
     
     
