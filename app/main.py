@@ -32,8 +32,7 @@ def main():
             response = b"HTTP/1.1 200 OK\r\n\r\n"
             conn.sendall(response)
         elif path =="/user-agent":
-            headers = get_header(request)
-            user_agent = get_user_agent(decoded_request)
+            user_agent = get_header(decoded_request)
             if user_agent:
                 response = (
                     f"HTTP/1.1 200 OK\r\n"
