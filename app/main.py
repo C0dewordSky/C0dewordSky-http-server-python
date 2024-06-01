@@ -15,9 +15,7 @@ def main():
         decoded_request = request.decode("utf-8")
         path = decoded_request.split()[1]
 
-        if  path.startswith("/"):
-            response = (b"HTTP/1.1 200 OK\r\n\r\n")
-        elif path.startswith("/echo/"):
+        if  path.startswith("/echo/"):
             response_body = path[len("/echo/"):]
             response = (
                 f"HTTP/1.1 200 OK\r\n"
