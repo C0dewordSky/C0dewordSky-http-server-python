@@ -19,10 +19,10 @@ def main():
   #  conn.close"""
     
     if request.decode("utf-8").split()[1] == "/echo/":
-        conn.sendall(f"HTTP/1.1 200 OK\r\nContent-Type: {str}\r\nContent-Length: {len(str)}\r\n\r\n{str}")
+        conn.sendall(b"HTTP/1.1 200 OK\r\nContent-Type: {str}\r\nContent-Length: {len(str)}\r\n\r\n{str}")
     else:
         conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")    
-    conn.close
+    conn.close()
     
 if __name__ == "__main__":
     main()
