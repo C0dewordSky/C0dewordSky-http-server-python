@@ -40,6 +40,7 @@ def main():
                     f"Content-Length: {len(user_agent)}\r\n\r\n"
                     f"{user_agent}"
                 ).encode()
+                conn.sendall(response)
         else:
             conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
         
