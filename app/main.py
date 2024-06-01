@@ -1,5 +1,15 @@
 import socket
 
+
+def get_header(request_str):
+    headers = {}
+    lines = request_str.split("\r\n")
+    for line in lines:
+        if ": " in line:
+            header, value = line.split(": ", 1)
+            headers[header] = value
+    return headers
+
 def main():
     # You can use print statements as follows for debugging, they'll be visible when running tests.
     print("Logs from your program will appear here!")
@@ -29,11 +39,14 @@ def main():
             response = b"HTTP/1.1 200 OK\r\n\r\n"
             conn.sendall(response)
         elif path.startswith("/user-agent"):
+            headers = get_header(request)
+            
+            user_agent = headers.ger("User-Agent")
             response = (
                 f"HTTP/1.1 200 OK\r\n"
                 f"Content-Type: text/plain\r\n"
-                f"Content-Length: {len(agent_response)}\r\n\r\n"
-                f"{agent_response}"
+                f"Content-Length: {len(user_agent)}\r\n\r\n"
+                f"{user_agent}"
             )
             conn.sendall(response)
         else:
