@@ -62,10 +62,7 @@ def get_header(request_str):
 
 def get_file(req_str):
     lines = req_str.split("/")
-    for line in lines :
-      if line.startswith("/files"):
-         return line.split("/", 1)[1].split()
-    return None
+    return lines[1]
 
 if __name__ == "__main__":
     main()
