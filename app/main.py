@@ -41,7 +41,7 @@ def main():
                     f"{user_agent}"
                 ).encode()
                 conn.sendall(response)
-        elif path == "/files/":
+        elif path == "/files":
             file_name= get_file(decoded_request)
             if file_name:
                 response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file_name)}\r\n\r\n{file_name}".encode()
@@ -63,7 +63,7 @@ def get_header(request_str):
 def get_file(req_str):
     lines = req_str.split("/")
     for line in lines :
-      if line.startswith("/"):
+      if line.startswith("/files"):
          return line.split("/", 1)[1].split()
     return None
 
