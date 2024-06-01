@@ -24,6 +24,9 @@ def main():
                 f"{response_body}"
             ).encode("utf-8")
             conn.sendall(response)
+        elif path == "/":
+            response = b"HTTP/1.1 200 OK\r\n\r\n"
+            conn.sendall(response)
         else:
             conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
         
