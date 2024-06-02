@@ -13,25 +13,7 @@ def main():
     # Server should run indefinitely
     while True:
         conn, _ = server_socket.accept()  # wait for client
-        
-        
-        request = conn.recv(1024)
-        decoded_request = request.decode("utf-8")
-        if not decoded_request:
-            conn.close()
-            continue
-
-        try:
-            method, path, _ = decoded_request.split(' ', 2)
-        except ValueError:
-            conn.sendall(b"HTTP/1.1 400 Bad Request\r\n\r\n")
-            conn.close()
-            continue
-
-        if method != 'GET':
-            conn.sendall(b"HTTP/1.1 405 Method Not Allowed\r\n\r\n")
-            conn.close()
-            continue
+    
 
         request = conn.recv(1024)
         decoded_request = request.decode("utf-8")
@@ -60,25 +42,14 @@ def main():
                     f"{user_agent}"
                 ).encode()
                 conn.sendall(response)
-            filename = path[len("/files/"):]
-            file_path = os.path.join(directory, filename)
-            print(directory, filename)
-            if os.path.isfile(file_path):
+            elif path.startswith("/files"):
+                filename = path[7:]
                 try:
-                    with open(file_path, "rb") as f:
-                        body = f.read()
-                    response = (
-                        f"HTTP/1.1 200 OK\r\n"
-                        f"Content-Type: application/octet-stream\r\n"
-                        f"Content-Length: {len(body)}\r\n\r\n"
-                    ).encode() + body
-                    conn.sendall(response)
+                 with open(f"/{directory}/{filename}", "r") as f:
+                    body = f.read()
+                 response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(body)}\r\n\r\n{body}".encode()
                 except Exception as e:
-                    response = b"HTTP/1.1 500 Internal Server Error\r\n\r\n"
-                    conn.sendall(response)
-            else:
-                response = b"HTTP/1.1 404 Not Found\r\n\r\n"
-                conn.sendall(response)
+                  response = f"HTTP/1.1 404 Not Found\r\n\r\n".encode()
         else:
             response = b"HTTP/1.1 404 Not Found\r\n\r\n"
             conn.sendall(response)
