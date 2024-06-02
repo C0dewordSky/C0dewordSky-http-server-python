@@ -13,6 +13,25 @@ def main():
     # Server should run indefinitely
     while True:
         conn, _ = server_socket.accept()  # wait for client
+        
+        
+        request = conn.recv(1024)
+        decoded_request = request.decode("utf-8")
+        if not decoded_request:
+            conn.close()
+            continue
+
+        try:
+            method, path, _ = decoded_request.split(' ', 2)
+        except ValueError:
+            conn.sendall(b"HTTP/1.1 400 Bad Request\r\n\r\n")
+            conn.close()
+            continue
+
+        if method != 'GET':
+            conn.sendall(b"HTTP/1.1 405 Method Not Allowed\r\n\r\n")
+            conn.close()
+            continue
 
         request = conn.recv(1024)
         decoded_request = request.decode("utf-8")
