@@ -1,5 +1,4 @@
 import socket
-import requests
 import sys
 
 def main():
@@ -63,12 +62,6 @@ def get_header(request_str):
         if line.startswith("User-Agent:"):
             return line.split(":", 1)[1].strip()
     return None
-
-def get_file(req_str):
-    lines = req_str.split(" ")
-    resp = requests.get(lines[2])
-    file_content = resp.text
-    return file_content
 
 if __name__ == "__main__":
     main()
