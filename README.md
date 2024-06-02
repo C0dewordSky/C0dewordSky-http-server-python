@@ -24,8 +24,8 @@ SimpleHTTPServer is a lightweight HTTP server built from scratch in Python. It h
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/SimpleHTTPServer.git
-cd SimpleHTTPServer
+https://github.com/C0dewordSky/C0dewordSky-http-server-python.git
+cd codecrafters-http-server-python
 ```
 
 ## Usage
@@ -33,7 +33,7 @@ cd SimpleHTTPServer
 Run the server with the following command:
 
 ```bash
-python server.py /path/to/directory
+python main.py /path/to/directory
 ```
 
 The server will start listening on `localhost:4221`.
