@@ -1,6 +1,6 @@
 import socket
 import sys
-
+import os
 
 def main():
     # You can use print statements as follows for debugging, they'll be visible when running tests.
@@ -41,21 +41,25 @@ def main():
                     f"{user_agent}"
                 ).encode()
                 conn.sendall(response)
-            elif path.startswith("/files/"):    
-              filename = path[len("/files/"):]
-              file_path = os.path.join(directory, filename)
-              print(directory, filename)
-              try:
-                with open(file_path, "rb") as f:
-                    body = f.read()
-                response = (
-                    f"HTTP/1.1 200 OK\r\n"
-                    f"Content-Type: application/octet-stream\r\n"
-                    f"Content-Length: {len(body)}\r\n\r\n"
-                ).encode() + body
-              except Exception as e:
+            filename = path[len("/files/"):]
+            file_path = os.path.join(directory, filename)
+            print(directory, filename)
+            if os.path.isfile(file_path):
+                try:
+                    with open(file_path, "rb") as f:
+                        body = f.read()
+                    response = (
+                        f"HTTP/1.1 200 OK\r\n"
+                        f"Content-Type: application/octet-stream\r\n"
+                        f"Content-Length: {len(body)}\r\n\r\n"
+                    ).encode() + body
+                    conn.sendall(response)
+                except Exception as e:
+                    response = b"HTTP/1.1 500 Internal Server Error\r\n\r\n"
+                    conn.sendall(response)
+            else:
                 response = b"HTTP/1.1 404 Not Found\r\n\r\n"
-            conn.sendall(response)
+                conn.sendall(response)
         else:
             response = b"HTTP/1.1 404 Not Found\r\n\r\n"
             conn.sendall(response)
