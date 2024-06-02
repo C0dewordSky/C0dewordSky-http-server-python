@@ -23,7 +23,7 @@ def main():
                 response = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(user_agent)}\r\n\r\n{user_agent}".encode()
             elif path.startswith("/accept-encoding"):
                 accept_encoding = req[3].split(": ")[1]
-                response = f"HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: {len(accept_encoding)}\r\n\r\n{accept_encoding}".encode()
+                response = f"HTTP/1.1 200 OK\r\nContent-Encoding: {accept_encoding}\r\nContent-Type: text/plain\r\nContent-Length: {len(path[6:])}\r\n\r\n{path[6:]}".encode()
             elif path.startswith("/files"):
                 directory = sys.argv[2]
                 filename = path[7:]
