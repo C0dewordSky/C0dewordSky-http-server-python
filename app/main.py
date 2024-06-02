@@ -6,6 +6,7 @@ def main():
     # You can use print statements as follows for debugging, they'll be visible when running tests.
     print("Logs from your program will appear here!")
 
+    directory = sys.argv[2]
     # Uncomment this to pass the first stage
     server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
     
@@ -40,18 +41,24 @@ def main():
                     f"{user_agent}"
                 ).encode()
                 conn.sendall(response)
-        elif path.startswith("/files"):
-            directory = sys.argv[2]
-            filename = path[7:]
-            print(directory, filename)
-            try:
-                with open(f"/{directory}/{filename}", "r") as f:
+            elif path.startswith("/files/"):    
+              filename = path[len("/files/"):]
+              file_path = os.path.join(directory, filename)
+              print(directory, filename)
+              try:
+                with open(file_path, "rb") as f:
                     body = f.read()
-                response = (f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(body)}\r\n\r\n{body}").encode()
-            except Exception as e:
-                response = f"HTTP/1.1 404 Not Found\r\n\r\n".encode()
+                response = (
+                    f"HTTP/1.1 200 OK\r\n"
+                    f"Content-Type: application/octet-stream\r\n"
+                    f"Content-Length: {len(body)}\r\n\r\n"
+                ).encode() + body
+              except Exception as e:
+                response = b"HTTP/1.1 404 Not Found\r\n\r\n"
+            conn.sendall(response)
         else:
-            conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
+            response = b"HTTP/1.1 404 Not Found\r\n\r\n"
+            conn.sendall(response)
         
         conn.close()  # Close connection after handling request
 
