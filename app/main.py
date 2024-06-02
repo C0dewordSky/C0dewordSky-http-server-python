@@ -21,6 +21,9 @@ def main():
             elif path.startswith("/user-agent"):
                 user_agent = req[2].split(": ")[1]
                 response = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(user_agent)}\r\n\r\n{user_agent}".encode()
+            elif path.startswith("/accept-encoding"):
+                accept_encoding = req[3].split(": ")[1]
+                response = f"HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: {len(accept_encoding)}\r\n\r\n{accept_encoding}".encode()
             elif path.startswith("/files"):
                 directory = sys.argv[2]
                 filename = path[7:]
