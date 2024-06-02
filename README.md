@@ -1,38 +1,95 @@
 [![progress-banner](https://backend.codecrafters.io/progress/http-server/52113345-eb45-4679-a634-4688313beec8)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
 
-This is a starting point for Python solutions to the
-["Build Your Own HTTP server" Challenge](https://app.codecrafters.io/courses/http-server/overview).
+## README.md
 
-[HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) is the
-protocol that powers the web. In this challenge, you'll build a HTTP/1.1 server
-that is capable of serving multiple clients.
+# SimpleHTTPServer
 
-Along the way you'll learn about TCP servers,
-[HTTP request syntax](https://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html),
-and more.
+SimpleHTTPServer is a lightweight HTTP server built from scratch in Python. It handles basic HTTP requests such as GET and POST, and provides functionalities like echoing messages, displaying user-agent information, handling file operations, and more.
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+## Features
 
-# Passing the first stage
+- Handles basic HTTP GET and POST requests.
+- Echoes messages from the URL.
+- Displays user-agent information from request headers.
+- Supports file retrieval and creation.
+- Handles content encoding for responses.
+- Multi-threaded to handle multiple requests concurrently.
 
-The entry point for your HTTP server implementation is in `app/main.py`. Study
-and uncomment the relevant code, and push your changes to pass the first stage:
+## Requirements
 
-```sh
-git add .
-git commit -m "pass 1st stage" # any msg
-git push origin master
+- Python 3.x
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/SimpleHTTPServer.git
+cd SimpleHTTPServer
 ```
 
-Time to move on to the next stage!
+## Usage
 
-# Stage 2 & beyond
+Run the server with the following command:
 
-Note: This section is for stages 2 and beyond.
+```bash
+python server.py /path/to/directory
+```
 
-1. Ensure you have `python (3.11)` installed locally
-1. Run `./your_server.sh` to run your program, which is implemented in
-   `app/main.py`.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+The server will start listening on `localhost:4221`.
+
+## Endpoints
+
+### GET /
+
+Returns a simple HTTP 200 OK response.
+
+### GET /echo/<message>
+
+Echoes the `<message>` in the response body.
+
+### GET /user-agent
+
+Returns the user-agent information from the request headers.
+
+### GET /accept-encoding
+
+Returns the accepted encoding from the request headers.
+
+### GET /files/<filename>
+
+Retrieves the specified file from the directory provided as a command-line argument.
+
+### POST /files/<filename>
+
+Creates or overwrites the specified file in the directory provided as a command-line argument with the content sent in the request body.
+
+## Example
+
+To start the server:
+
+```bash
+python server.py /path/to/your/files
+```
+
+Send a GET request to echo a message:
+
+```bash
+curl http://localhost:4221/echo/HelloWorld
+```
+
+Send a POST request to create a file:
+
+```bash
+curl -X POST -d "This is a test file" http://localhost:4221/files/test.txt
+```
+
+## Contributing
+
+Contributions are welcome! Please submit a pull request or open an issue for any changes or suggestions.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
