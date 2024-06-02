@@ -1,7 +1,5 @@
 import socket
-
-
-
+import requests
 
 def main():
     # You can use print statements as follows for debugging, they'll be visible when running tests.
@@ -42,10 +40,11 @@ def main():
                 ).encode()
                 conn.sendall(response)
         elif path == "/files":
-            file_name= get_file(decoded_request)
+            file_name = get_file(decoded_request)
             if file_name:
                 response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(file_name)}\r\n\r\n{file_name}".encode()
                 conn.sendall(response)
+                conn.sendall(file_name)
         else:
             conn.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
         
@@ -61,8 +60,9 @@ def get_header(request_str):
     return None
 
 def get_file(req_str):
-    lines = req_str.split("/")
-    return lines[2]
+    lines = req_str.split(" ")
+    resp = requests.get(lines[2])
+    return resp
 
 if __name__ == "__main__":
     main()
